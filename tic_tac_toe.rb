@@ -228,10 +228,6 @@ class Game
     board.empty_positions.sample
   end
 
-  def current_player_win?
-    board.winning_condition(current_player.marker)
-  end
-
   def determine_first_player_to_move
     @current_player = [human, computer].sample
   end
