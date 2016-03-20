@@ -1,15 +1,16 @@
 class Game
-  attr_reader :board, :human, :computer, :current_player
+  attr_reader :board, :display, :human, :computer, :current_player
 
   def initialize
     @board = Board.new
+    @display = Display.new(board)
     @human = Human.new
     @computer = Computer.new
     @current_player = nil
   end
 
   def play
-    display_welcome_message
+    display.welcome_message
 
     loop do
       selected_marker = human.choose_marker
@@ -19,17 +20,17 @@ class Game
 
       loop do
         current_player.move(board)
-        break if board.winner? || board.all_squares_marked?
+        break if board.winner || board.all_squares_marked?
         alternate_player
-        clear_screen_and_draw_board
+        display.clear_screen_and_draw_board
       end
 
-      display_result
+      display.result(human, computer)
       break unless play_again?
       reset
     end
 
-    display_goodbye_message
+    display.goodbye_message
   end
 
   private
@@ -52,39 +53,8 @@ class Game
     end
   end
 
-  def clear
-    system 'clear'
-  end
-
-  def clear_screen_and_draw_board
-    clear
-    board.draw
-  end
-
   def determine_first_player
     @current_player = [human, computer].sample
-  end
-
-  def display_goodbye_message
-    puts 'Thanks for playing...Goodbye!'
-  end
-
-  def display_result
-    clear_screen_and_draw_board
-
-    case board.winner?
-    when human.marker
-      puts 'You won!'
-    when computer.marker
-      puts 'Computer won!'
-    else
-      puts "It's a tie!"
-    end
-  end
-
-  def display_welcome_message
-    puts 'Welcome to Tic Tac Toe!'
-    puts ''
   end
 
   def play_again?
@@ -102,6 +72,6 @@ class Game
   def reset
     board.reset
     @current_player = nil
-    clear
+    display.clear
   end
 end

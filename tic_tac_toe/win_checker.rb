@@ -5,14 +5,6 @@ class WinChecker
     @squares = squares
   end
 
-  def run
-    return row_winner if row_winner
-    return column_winner if column_winner
-    return forward_diagonal_winner if forward_diagonal_winner
-    return reverse_diagonal_winner if reverse_diagonal_winner
-    nil
-  end
-
   def build_column(column_index)
     rows.each_with_object([]) { |row, column| column << row[column_index] }
   end
@@ -85,5 +77,13 @@ class WinChecker
 
   def rows
     squares.values.map(&:value).each_slice(3).to_a
+  end
+
+  def winner
+    return row_winner if row_winner
+    return column_winner if column_winner
+    return forward_diagonal_winner if forward_diagonal_winner
+    return reverse_diagonal_winner if reverse_diagonal_winner
+    nil
   end
 end

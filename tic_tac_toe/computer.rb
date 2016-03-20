@@ -1,11 +1,8 @@
-class Computer < Player
-
-  def initialize
-    super
-  end
+class Computer
+  attr_accessor :marker
 
   def move(board)
     position = board.empty_positions.sample
-    super(board, position, marker)
+    board.mark_square(position, marker)
   end
 end

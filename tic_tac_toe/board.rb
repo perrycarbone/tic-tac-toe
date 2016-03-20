@@ -42,12 +42,7 @@ class Board
     (1..9).each { |position| squares[position] = Square.new(' ') }
   end
 
-  def winner?
-    !!winner
-  end
-
   def winner
-    win_checker = WinChecker.new(squares)
-    win_checker.run
+    WinChecker.new(squares).winner
   end
 end
